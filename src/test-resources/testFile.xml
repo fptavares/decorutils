@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test>
+    <item name="hello">
+        <description>Hello World!</description>
+        <description>Hello World!... again</description>
+    </item>
+</test>

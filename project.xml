@@ -1,0 +1,263 @@
+<?xml version="1.0"?>
+<!--
+   Copyright 2005 Filipe Tavares
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<project>
+    <pomVersion>3</pomVersion>
+    <artifactId>decorutils</artifactId>
+    <name>Decorator Utilities</name>
+    <groupId>decorutils</groupId>
+    <currentVersion>0.6</currentVersion>
+    
+    <organization>
+        <name>devyant</name>
+        <url>http://www.devyant.org/</url>
+        <logo>http://www.devyant.org/images/devyant.jpg</logo>
+    </organization>
+    
+    <inceptionYear>2005</inceptionYear>
+	
+    <package>org.devyant.${pom.groupId}</package>
+
+    <logo>/images/decorutils.jpg</logo>
+
+    <description>
+        A set of utilities for the use of decorators in a Java web application.
+        The goal of this project is to offer an easy way to "decorate" data
+        for presentation purposes. This is partially done by using concepts
+        introduced by the Decorator Design Pattern.
+    </description>
+
+    <shortDescription>
+        A set of utilities for the use of decorators in a Java web application.
+    </shortDescription>
+
+    <url>http://www.devyant.org/${pom.groupId}/</url>
+
+    <siteAddress>shell.sourceforge.net</siteAddress>
+    <siteDirectory>/home/groups/d/de/decorutils/htdocs/</siteDirectory>
+    <repository>
+        <connection>scm:cvs:pserver:anonymous@cvs.sourceforge.net:/cvsroot/decorutils:decorutils</connection>
+        <developerConnection>
+            scm:cvs:ext:${maven.username}@cvs.sourceforge.net:/cvsroot/decorutils:decorutils
+        </developerConnection>
+        <url>http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/decorutils/decorutils/</url>
+    </repository>
+
+    <versions>
+        <version>
+            <id>0.6</id>
+            <name>0.6</name>
+            <tag>HEAD</tag>
+        </version>
+    </versions>
+
+    <mailingLists>
+        <mailingList>
+            <name>${pom.name} User Mailing list</name>
+            <subscribe>http://lists.sourceforge.net/lists/listinfo/${pom.groupId}-user</subscribe>
+            <unsubscribe>http://lists.sourceforge.net/lists/listinfo/${pom.groupId}-user</unsubscribe>
+            <archive>http://sourceforge.net/mailarchive/forum.php?forum=${pom.groupId}-user</archive>
+        </mailingList>
+        <mailingList>
+            <name>${pom.name} Developer Mailing list</name>
+            <subscribe>http://lists.sourceforge.net/lists/listinfo/${pom.groupId}-developer</subscribe>
+            <unsubscribe>http://lists.sourceforge.net/lists/listinfo/${pom.groupId}-developer</unsubscribe>
+            <archive>http://sourceforge.net/mailarchive/forum.php?forum=${pom.groupId}-developer</archive>
+        </mailingList>
+        <mailingList>
+            <name>${pom.name} Cvs Mailing list</name>
+            <subscribe>http://lists.sourceforge.net/lists/listinfo/${pom.groupId}-cvs</subscribe>
+            <unsubscribe>http://lists.sourceforge.net/lists/listinfo/${pom.groupId}-cvs</unsubscribe>
+            <archive>http://sourceforge.net/mailarchive/forum.php?forum=${pom.groupId}-cvs</archive>
+        </mailingList>
+    </mailingLists>
+  
+    <developers>
+
+        <developer>
+            <name>Filipe Tavares</name>
+            <id>ftavares</id>
+            <email>ftavares@devyant.org</email>
+            <organization>devyant</organization>
+        </developer>
+
+    </developers>
+    
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+        </license>
+    </licenses>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>commons-beanutils</groupId>
+            <artifactId>commons-beanutils</artifactId>
+            <version>1.7.0</version>
+            <type>jar</type>
+            <url>http://jakarta.apache.org/commons/beanutils/</url>
+            <properties>
+                <jar.bundle>true</jar.bundle>
+                <cactus.bundle>true</cactus.bundle>
+                <comment>Used for bean manipulation.</comment>
+            </properties>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+            <version>1.0.4</version>
+            <type>jar</type>
+            <url>http://jakarta.apache.org/commons/logging/</url>
+            <properties>
+                <jar.bundle>true</jar.bundle>
+                <cactus.bundle>true</cactus.bundle>
+                <comment>Used for logging.</comment>
+            </properties>
+        </dependency>
+
+        <dependency>
+            <groupId>servletapi</groupId>
+            <artifactId>servletapi</artifactId>
+            <version>2.3</version>
+            <type>jar</type>
+            <url>http://jakarta.apache.org/tomcat/</url>
+            <properties>
+                <comment>Used for compile only.</comment>
+            </properties>
+        </dependency>
+
+        <dependency>
+            <groupId>cactus</groupId>
+            <artifactId>cactus-maven</artifactId>
+            <version>1.7</version>
+            <type>plugin</type>
+            <url>http://jakarta.apache.org/cactus/integration/maven/index.html</url>
+            <properties>
+                <comment>Used for taglib tests.</comment>
+            </properties>
+        </dependency>
+        <dependency>
+            <groupId>cactus</groupId>
+            <artifactId>cactus</artifactId>
+            <version>13-1.7</version>
+            <type>jar</type>
+            <url>http://jakarta.apache.org/cactus/</url>
+            <properties>
+                <comment>Used for taglib tests.</comment>
+            </properties>
+        </dependency>
+        <dependency>
+            <groupId>httpunit</groupId>
+            <artifactId>httpunit</artifactId>
+            <version>1.6</version>
+            <type>jar</type>
+            <url>http://httpunit.sourceforge.net/</url>
+            <properties>
+                <comment>Used for taglib tests.</comment>
+            </properties>
+        </dependency>
+		
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>3.8.1</version>
+            <type>jar</type>
+            <url>http://junit.sf.net/</url>
+            <properties>
+                <comment>Required to run all tests.</comment>
+            </properties>
+        </dependency>
+
+        <dependency>
+            <groupId>maven-taglib</groupId>
+            <artifactId>maven-taglib-plugin</artifactId>
+            <version>1.2.2</version>
+            <type>plugin</type>
+            <url>http://maven-taglib.sourceforge.net</url>
+            <properties>
+                <comment>Maven plugin used to generate tag reference documentation.</comment>
+            </properties>
+        </dependency>
+
+        <dependency>
+            <groupId>statcvs</groupId>
+            <artifactId>maven-statcvs-plugin</artifactId>
+            <version>2.5</version>
+            <type>plugin</type>
+            <url>http://statcvs-xml.berlios.de/maven-plugin/</url>
+            <properties>
+                <comment>Maven plugin for CVS report.</comment>
+            </properties>
+        </dependency>
+
+        <dependency>
+            <groupId>maven-plugins</groupId>
+            <artifactId>maven-findbugs-plugin</artifactId>
+            <version>0.8.4</version>
+            <type>plugin</type>
+            <url>http://maven-plugins.sourceforge.net/maven-findbugs-plugin/</url>
+            <properties>
+                <comment>Maven plugin for FindBug report.</comment>
+            </properties>
+        </dependency>
+    
+    </dependencies>
+
+    <build>
+
+        <nagEmailAddress>${pom.groupId}@devyant.org</nagEmailAddress>
+
+        <sourceDirectory>src/java</sourceDirectory>
+
+        <unitTestSourceDirectory>src/test</unitTestSourceDirectory>
+        
+        <unitTest>
+            <includes>
+                <include>**/*Test.java</include>
+            </includes>
+            <resources>
+                <resource>
+                    <directory>src/test-resources</directory>
+                    <filtering>false</filtering>
+                </resource>
+            </resources>
+        </unitTest>
+
+        <aspectSourceDirectory/>
+
+        <resources/>
+    </build>
+    <reports>
+        <report>maven-license-plugin</report>
+        <report>maven-checkstyle-plugin</report>
+        <report>maven-changes-plugin</report>
+        <report>maven-javadoc-plugin</report>
+        <report>taglib</report>
+        <report>maven-jdepend-plugin</report>
+        <report>maven-pmd-plugin</report>
+        <report>maven-findbugs-plugin</report>
+        <report>maven-jxr-plugin</report>
+        <report>maven-junit-report-plugin</report>
+        <report>maven-cactus-plugin</report>
+        <report>maven-tasklist-plugin</report>
+        <report>maven-simian-plugin</report>
+        <report>maven-statcvs-plugin</report>
+        <report>maven-faq-plugin</report>
+    </reports>
+</project>

@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE taglib PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.2//EN"
+  "http://java.sun.com/dtd/web-jsptaglibrary_1_2.dtd">
+<taglib>
+  <tlib-version>0.6</tlib-version>
+  <jsp-version>1.2</jsp-version>
+  <short-name>deco</short-name>
+  <uri>http://www.devyant.org</uri>
+  <display-name>Decorator Utils: Decorator Tag Library</display-name>
+  <description>
+    This Tag Library is usefull for decorating objects, transforming the data
+    containers in presentable text data. This is done by aplying a decorator
+    to the object we wish to decorate.
+  </description>
+  <tag>
+    <name>decorate</name>
+    <tag-class>org.devyant.decorutils.tags.decorator.DecorateTag</tag-class>
+    <body-content>JSP</body-content>
+    <display-name>decorate</display-name>
+    <description>
+      This tag is usefull for decorating objects, transforming the data
+      containers in presentable text data. This is done by aplying a decorator
+      to the object we wish to decorate.
+    </description>
+
+    <attribute>
+      <name>name</name>
+      <required>true</required>
+      <rtexprvalue>true</rtexprvalue>
+      <type>java.lang.String</type>
+      <description>The name of the bean to be retrieved.</description>
+    </attribute>
+    <attribute>
+      <name>property</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+      <type>java.lang.String</type>
+      <description>The name of the property to be retrieved.</description>
+    </attribute>
+    <attribute>
+      <name>decorator</name>
+      <required>true</required>
+      <rtexprvalue>true</rtexprvalue>
+      <type>java.lang.String</type>
+      <description>
+        The fully qualified class name of a class that should be used to "decorate"
+        the underlying object being displayed.
+      </description>
+    </attribute>
+    <attribute>
+      <name>scope</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+      <type>java.lang.String</type>
+      <description>
+        The scope within which to search for the specified bean.
+        Default is page scope.
+      </description>
+    </attribute>
+    <attribute>
+      <name>attributes</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+      <type>java.lang.String</type>
+      <description>
+        A set of extra attributes that you may wish to add to your decorator
+        through setter methods. The set of attributes should be seperated by
+        commas (',').
+        The attributes may be static or dynamic. For static attributes you must
+        indicate the name of the property and it's value in the following manner:
+        property=value. Dynamic attributes only require the name of the
+        bean to retrieve, which will also be the name of the property to set.
+      </description>
+    </attribute>
+    <attribute>
+      <name>setPageContext</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+      <type>boolean</type>
+      <description>
+        If set to true, the decorator will be populated with the PageContext
+        instance. Setter methods for pageContext must be exist in the decorator
+        class (setPageContext).
+        Default value is false.
+      </description>
+    </attribute>
+    <attribute>
+      <name>iterate</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+      <type>boolean</type>
+      <description>
+        When set to true, the decorator expects a Collection of values
+        to decorate and iterates through the Collection decorating
+        each object seperatly.
+        Default value is false.
+      </description>
+    </attribute>
+  </tag>
+  <tag>
+    <name>decorateAndStore</name>
+    <tag-class>org.devyant.decorutils.tags.decorator.DecorateAndStoreTag</tag-class>
+    <tei-class>org.devyant.decorutils.tags.decorator.DecorateAndStoreTagExtraInfo</tei-class>
+    <body-content>JSP</body-content>
+    <display-name>decorateAndStore</display-name>
+    <description>
+      This tag is usefull for decorating objects, transforming the data
+      containers in presentable text data. This is done by aplying a decorator
+      to the object we wish to decorate.
+    </description>
+
+    <!-- unique -->
+    <attribute>
+      <name>id</name>
+      <required>true</required>
+      <rtexprvalue>true</rtexprvalue>
+      <type>java.lang.String</type>
+      <description>
+        Stores the result of the decoration in the specified scope instead of
+        printing it. If the scope is not specified, the default scope is the
+        page scope.
+      </description>
+    </attribute>
+    <attribute>
+      <name>toScope</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+      <type>java.lang.String</type>
+      <description>The scope in which the result will be stored.</description>
+    </attribute>
+
+    <!-- common -->
+    <attribute>
+      <name>name</name>
+      <required>true</required>
+      <rtexprvalue>true</rtexprvalue>
+      <type>java.lang.String</type>
+      <description>The name of the bean to be retrieved.</description>
+    </attribute>
+    <attribute>
+      <name>property</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+      <type>java.lang.String</type>
+      <description>The name of the property to be retrieved.</description>
+    </attribute>
+    <attribute>
+      <name>decorator</name>
+      <required>true</required>
+      <rtexprvalue>true</rtexprvalue>
+      <type>java.lang.String</type>
+      <description>
+        The fully qualified class name of a class that should be used to "decorate"
+        the underlying object being displayed.
+      </description>
+    </attribute>
+    <attribute>
+      <name>scope</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+      <type>java.lang.String</type>
+      <description>
+        The scope within which to search for the specified bean.
+        Default is page scope.
+      </description>
+    </attribute>
+    <attribute>
+      <name>attributes</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+      <type>java.lang.String</type>
+      <description>
+        A set of extra attributes that you may wish to add to your decorator
+        through setter methods. The set of attributes should be seperated by
+        commas (',').
+        The attributes may be static or dynamic. For static attributes you must
+        indicate the name of the property and it's value in the following manner:
+        property=value. Dynamic attributes only require the name of the
+        bean to retrieve, which will also be the name of the property to set.
+      </description>
+    </attribute>
+    <attribute>
+      <name>setPageContext</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+      <type>boolean</type>
+      <description>
+        If set to true, the decorator will be populated with the PageContext
+        instance. Setter methods for pageContext must be exist in the decorator
+        class (setPageContext).
+        Default value is false.
+      </description>
+    </attribute>
+    <attribute>
+      <name>iterate</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+      <type>boolean</type>
+      <description>
+        When set to true, the decorator expects a Collection of values
+        to decorate and iterates through the Collection decorating
+        each object seperatly.
+        Default value is false.
+      </description>
+    </attribute>
+  </tag>
+  <tag>
+    <name>iterateAndDecorate</name>
+    <tag-class>org.devyant.decorutils.tags.decorator.IterateAndDecorateTag</tag-class>
+    <tei-class>org.devyant.decorutils.tags.decorator.IterateAndDecorateTagExtraInfo</tei-class>
+    <body-content>JSP</body-content>
+    <display-name>iterateAndDecorate</display-name>
+    <description>
+      This tag is usefull for decorating objects, transforming the data
+      containers in presentable text data. This is done by aplying a decorator
+      to the object we wish to decorate.
+    </description>
+
+    <!-- unique (same has above) -->
+    <attribute>
+      <name>id</name>
+      <required>true</required>
+      <rtexprvalue>true</rtexprvalue>
+      <type>java.lang.String</type>
+      <description>
+        Stores the result of the decoration in the specified scope instead of
+        printing it. If the scope is not specified, the default scope is the
+        page scope.
+      </description>
+    </attribute>
+    <attribute>
+      <name>toScope</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+      <type>java.lang.String</type>
+      <description>The scope in which the result will be stored.</description>
+    </attribute>
+
+    <!-- common -->
+    <attribute>
+      <name>name</name>
+      <required>true</required>
+      <rtexprvalue>true</rtexprvalue>
+      <type>java.lang.String</type>
+      <description>The name of the bean to be retrieved.</description>
+    </attribute>
+    <attribute>
+      <name>property</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+      <type>java.lang.String</type>
+      <description>The name of the property to be retrieved.</description>
+    </attribute>
+    <attribute>
+      <name>decorator</name>
+      <required>true</required>
+      <rtexprvalue>true</rtexprvalue>
+      <type>java.lang.String</type>
+      <description>
+        The fully qualified class name of a class that should be used to "decorate"
+        the underlying object being displayed.
+      </description>
+    </attribute>
+    <attribute>
+      <name>scope</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+      <type>java.lang.String</type>
+      <description>
+        The scope within which to search for the specified bean.
+        Default is page scope.
+      </description>
+    </attribute>
+    <attribute>
+      <name>attributes</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+      <type>java.lang.String</type>
+      <description>
+        A set of extra attributes that you may wish to add to your decorator
+        through setter methods. The set of attributes should be seperated by
+        commas (',').
+        The attributes may be static or dynamic. For static attributes you must
+        indicate the name of the property and it's value in the following manner:
+        property=value. Dynamic attributes only require the name of the
+        bean to retrieve, which will also be the name of the property to set.
+      </description>
+    </attribute>
+    <attribute>
+      <name>setPageContext</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+      <type>boolean</type>
+      <description>
+        If set to true, the decorator will be populated with the PageContext
+        instance. Setter methods for pageContext must be exist in the decorator
+        class (setPageContext).
+        Default value is false.
+      </description>
+    </attribute>
+    <attribute>
+      <name>iterate</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+      <type>boolean</type>
+      <description>
+        When set to true, the decorator expects a Collection of values
+        to decorate and iterates through the Collection decorating
+        each object seperatly.
+        Default value is false.
+      </description>
+    </attribute>
+  </tag>
+</taglib>

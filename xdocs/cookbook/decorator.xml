@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+<body>
+
+<section name="Chapter: Decorator Tag Library">
+
+<p><ol>
+    <li><a href="#simple">Simple Decorator</a></li>
+    <li><a href="#scope">Decorator that Uses the Page Scope</a></li>
+    <li><a href="#attributes">Decorator With Attributes</a></li>
+    <li><a href="#store">Store Instead of Printing</a></li>
+    <li><a href="#collections">Decorate a Collection of Objects</a></li>
+    <li><a href="#display">Decorator Tag Library vs. Display Tag Library</a></li>
+</ol></p>
+
+<br/>
+
+<div id="recipe">
+    <a name="simple"></a>
+    <subsection name="Recipe: Simple Decorator">
+
+    <p>
+        The simplest way to use the Decorator Tag Library is to simply apply
+        a decorator to an object stored in some scope.
+    </p>
+
+    <p>
+        The example bellow shows a <code>Date</code> instance being decorated by
+        a <code>Date</code> decorator that will transform it into a presentable
+        <code>String</code>.
+
+    <div class="source"><pre>
+&lt;% request.setAttribute("date", new java.util.Date()); %&gt;
+
+&lt;deco:decorate
+        name="date"
+        decorator="org.devyant.decorutils.decorators.DateDecorator" /&gt;</pre></div>
+
+    </p>
+
+    <p>
+        This code outputs:
+
+    <div id="result">
+        <code>Wednesday, March 23, 2005</code>
+    </div>
+    </p>
+
+
+</subsection></div>
+
+<br/><br/>
+
+<div id="recipe">
+    <a name="scope"></a>
+    <subsection name="Recipe: Decorator that Uses the Page Scope">
+
+    <p>
+        In the last example, we used a <code>Date</code> wrapper which tranformed
+        the date object and returned a String representing the date. This date was
+        printed in english because the default locale used is
+        <code>Locale.ENGLISH</code>.
+    </p>
+
+    <p>
+        If you need to access a scope on your decorator, you can use set the
+        attribute <i>setPageContext</i> to <code>true</code> and a method
+        named <code>setPageContext</code> in your decorator will be called.
+    </p>
+
+    <p>
+
+        In this case, the <code>DateDecorator</code> has a method setter method for the
+        PageContext instance:
+
+    <div class="source"><pre>
+    public void setPageContext(PageContext pageContext) {
+        this.locale = pageContext.getRequest().getLocale();
+    }</pre></div>
+    </p>
+
+    <p>
+        This means that we can use that to present the current date in the
+        viewers language:
+
+    <div class="source"><pre>
+
+&lt;% request.setAttribute("date", new java.util.Date()); %&gt;
+
+&lt;deco:decorate
+        name="date"
+        <span>setPageContext="true"</span>
+        decorator="org.devyant.decorutils.decorators.DateDecorator" /&gt;</pre></div>
+    </p>
+
+    <p>
+        This code results in:
+
+    <div id="result">
+
+        <code>Wednesday, March 23, 2005</code>
+    </div>
+
+    </p>
+</subsection></div>
+
+<br/><br/>
+
+<div id="recipe">
+    <a name="attributes"></a>
+    <subsection name="Recipe: Decorator With Attributes">
+
+    <p>
+        Sometimes a method that takes only one argument is not quite enough.
+        You might want to make your decorator customizable or it just requires
+        some extra information for its decoration. This is what the
+        <i>attributes</i> attribute is for.
+    </p>
+
+    <p>
+        The example that we've been using has been transforming the <code>Date</code>
+        object always with the same format. We may want to show the date in a
+        more compact format in some places and in a more complete format in others.
+        We could create another decorator, but that doesn't sound that good.
+        We can acomplish it by having an attribute named <i>format</i> and specify
+        it at run-time.
+
+    <div class="source"><pre>
+
+&lt;% request.setAttribute("date", new java.util.Date()); %&gt;
+
+&lt;deco:decorate
+        name="date"
+        <span>attributes="format=short"</span>
+        setPageContext="true"
+        decorator="org.devyant.decorutils.decorators.DateDecorator" /&gt;</pre></div>
+    </p>
+
+    <p>
+        Which results in:
+
+    <div id="result">
+
+        <code>3/23/05</code>
+    </div>
+    </p>
+
+    <br/>
+
+    <p>
+        Inside the decorator:
+    <div class="source"><pre>
+    public void setFormat(String format) {
+        // stuff
+    }</pre></div>
+
+    </p>
+
+    <br/>
+
+    <p>
+        What we did was insert static data into the decorator. This data may
+        also be dynamic. The operator <strong>=</strong> implies static
+        information. When there's no operator, the value for the attibute
+        will be fetched from the scope.
+
+    <div class="source"><pre>
+&lt;%
+    request.setAttribute("date", new java.util.Date());
+    request.setAttribute("format", "short");
+%&gt;
+
+&lt;deco:decorate
+        name="date"
+        <span>attributes="format"</span>
+        setPageContext="true"
+        decorator="org.devyant.decorutils.decorators.DateDecorator" /&gt;</pre></div>
+    </p>
+
+    <p>
+        You can specify more than one attribute by seperating them with comas (','):
+
+    <div class="source"><pre>
+&lt;deco:decorate
+        name="date"
+        attributes=<span>"xyz=things, scopeStuff, zyx=some more stuff"</span>
+
+        setPageContext="true"
+        decorator="org.devyant.decorutils.decorators.DateDecorator" /&gt;</pre></div>
+
+    </p>
+</subsection></div>
+
+<br/><br/>
+
+<div id="recipe">
+    <a name="store"></a>
+    <subsection name="Recipe: Store Instead of Printing">
+
+    <p>
+
+        To take complete advantage of the Decorator Design Pattern, we can't just
+        stick to printing <code>String</code> 's, we want to store the decorated
+        objects, not necesseraly <code>String</code> 's, for more complex tasks.
+
+    <div class="source"><pre>
+&lt;% request.setAttribute("date", new java.util.Date()); %&gt;
+
+&lt;deco:decorateAndStore
+        id="decoratedDate"
+        name="date"
+        attributes="format=short"
+        setPageContext="true"
+        decorator="org.devyant.decorutils.decorators.DateDecorator" /&gt;</pre></div>
+    </p>
+
+    <p>
+        The <code>decorateAndStore</code> tag works exactly the same way has
+        the <code>decorate</code> tag, but instead of printing the result, it
+        stores it in the scope.
+    </p>
+
+</subsection></div>
+
+<br/><br/>
+
+<div id="recipe">
+    <a name="collections"></a>
+    <subsection name="Recipe: Decorate a Collection of Objects">
+
+    <p>
+        All the tags have an attribute named <i>iterate</i> which defaults
+        to <code>false</code>. If set to <code>true</code>, the tag will
+        act as if the object is a <code>Collection</code> and iterate
+        through it and decorate each object.
+
+    <div class="source"><pre>
+
+&lt;%
+    java.util.Collection c = new java.util.ArrayList();
+    c.add(new java.util.Date());
+    c.add(new java.util.Date());
+    c.add(new java.util.Date());
+    request.setAttribute("collection", c);
+%&gt;
+
+&lt;deco:decorate
+        name="collection"
+        attributes="format=short"
+        setPageContext="true"
+        <span>iterate="true"</span>
+        decorator="org.devyant.decorutils.decorators.DateDecorator" /&gt;</pre></div>
+    </p>
+
+    <p>
+        Which outputs:
+
+    <div id="result">
+
+        
+        <code>3/23/053/23/053/23/05</code>
+    </div>
+    </p>
+
+    <p>
+        In this case, it actually doesn't look very nice. This brings us to the
+        <code>iterateAndDecorate</code> tag. This tag expects a
+        <code>Collection</code> and iterates through it. Each iteration results
+        in a decorated object being stored in the scope for you to use in any
+        way on the tag's body.
+
+    <div class="source"><pre>
+
+&lt;%
+    java.util.Collection c = new java.util.ArrayList();
+    c.add(new java.util.Date());
+    c.add(new java.util.Date());
+    c.add(new java.util.Date());
+    request.setAttribute("collection", c);
+%&gt;
+
+&lt;deco:iterateAndDecorate
+    id="date"
+    name="collection"
+    attributes="format=short"
+    setPageContext="true"
+    decorator="org.devyant.decorutils.decorators.DateDecorator"&gt;
+
+    &lt;p&gt;
+        &lt;strong&gt;&lt;%= date %&gt;&lt;/strong&gt;
+    &lt;/p&gt;
+
+&lt;/deco:iterateAndDecorate&gt;</pre></div>
+    </p>
+
+    <p>
+        Which outputs:
+
+    <div id="result">
+
+        
+            <p><code><strong>3/23/05</strong></code></p>
+        
+            <p><code><strong>3/23/05</strong></code></p>
+
+        
+            <p><code><strong>3/23/05</strong></code></p>
+        
+
+    </div>
+    </p>
+</subsection></div>
+
+<br/><br/>
+
+<div id="recipe">
+    <a name="display"></a>
+    <subsection name="Recipe: Decorator Tag Library vs. Display Tag Library">
+
+    <p>
+
+        So you've made a couple of TableDecorator's and wondered: "Wouldn't it
+        be cool if I could you these on the Decorator taglib?". Well, you can.
+        I'm not going to tell you about the TableDecorator, you can
+        check it out at the Display Tag Library site, more precisely: the
+        <a href="http://displaytag.sourceforge.net/tut_decorators.html">
+        Decorators Tutorial</a>. DisplayTag also has a ColumnDecorator which
+        works exactly like the decorators I have presented until now, so you
+        can use those with the Decorator Tag Library as well.
+    </p>
+    <p>
+        So, has you can see, there's no "vs.", just plain beautiful
+        compatibility :).
+    </p>
+
+    <p>
+    	DisplayTag's TableDecorators are wrappers just like Decorutils's
+    	Wrapper, so the use of TableDecorator's has just a special detail to
+    	attend to: the <i>property</i> attribute must be set with the property
+    	you want to retrieve from the decorator, so the <i>name</i> attribute
+    	will be the sole responsible for the Java bean (just like with a Wrapper).
+
+    <div class="source"><pre>
+
+&lt;%
+    SomeObject o = new SomeObject("I'm a fake");
+    o.setDate(new java.util.Date());
+    request.setAttribute("someObject", o);
+%&gt;
+
+&lt;deco:decorate
+        name="someObject"
+        property="date"
+        decorator="org.devyant.decorutils.SomeTableDecorator" /&gt;</pre></div>
+    </p>
+
+    <br/>
+
+    <p>
+        <a href="http://displaytag.sourceforge.net/">Display *: Tag Library</a>
+    </p>
+
+</subsection></div>
+
+<br/><br/>
+
+</section>
+
+</body>
+</document>

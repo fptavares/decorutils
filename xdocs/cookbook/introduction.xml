@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+<body>
+
+<section name="Chapter: Introduction">
+
+<p><ol>
+    <li><a href="#inheritance">Java's Inheritance</a></li>
+    <li><a href="#pattern">The Decorator Design Pattern</a></li>
+    <li><a href="#dilemma">The Display Logic Dilemma</a></li>
+    <li><a href="#dnw">Decorators and Wrappers</a></li>
+    <li><a href="#references">References</a></li>
+</ol></p>
+
+<p>
+	The Decorator Design Pattern describes an alternative to Java's subclassing.
+</p>
+
+<br/>
+
+<div id="recipe"><a name="inheritance"></a>
+<subsection name="Java's Inheritance">
+
+<p>
+	One of the main concepts associated with Object-Oriented Programming is
+	inheritance. By extending a class, you inherit it's state and behaviors and
+	are given the possibility to add new ones. This way, you are able to add
+	functionality to an entire class of objects.
+</p>
+<p>
+	Extending classes is great,	but what about extending objects?
+</p>
+<p>
+	Adding functionality to a single object and leaving others like it
+	unmodified would be very useful in numerous situations. The Decorator
+	Tag Library uses the Decorator Design Pattern to achieve this.
+</p>
+</subsection></div>
+
+<br/><br/>
+
+<div id="recipe"><a name="pattern"></a>
+<subsection name="The Decorator Design Pattern">
+
+	<p>
+		A Decorator, also known as a Wrapper, is an object that has an interface
+		identical to an object that it contains. Any calls that the decorator gets,
+		it relays to the object that it contains, and adds its own functionality
+		along the way, either before or after the call. This gives you a lot of
+		flexibility, since you can change what the decorator does at runtime, as
+		opposed to having the change be static and determined at compile time by
+		subclassing. Since a Decorator complies with the interface that the object
+		that it contains, the Decorator is indistinguishable from the object that it
+		contains. That is, a Decorator is a concrete instance of the abstract
+		class, and thus is indistinguishable from any other concrete instance,
+		including other decorators. This can be used to great advantage, as you can
+		recursively nest decorators without any other objects being able to tell the
+		difference, allowing a near infinite amount of customization¹.
+	</p>
+	
+	<br/>
+	<p align="center">
+		<img src="../images/decorator.jpg" />
+	</p>
+	<p align="center">
+		The Decorator Design Pattern architecture as seen
+		<a href="http://www.exciton.cs.rice.edu/JavaResources/DesignPatterns/DecoratorPattern.htm">
+		here</a>¹.
+	</p>
+	<br/>
+	
+	<p>
+		Decorators add the ability to dynamically alter the behavior of an object
+		because a decorator can be added or removed from an object without the
+		client realizing that anything changed.  It is a good idea to use a
+		Decorator in a situation where you want to change the behaviour of an object
+		repeatedly (by adding and subtracting functionality) during runtime¹.
+	</p>
+	<p>
+		The dynamic behavior modification capability also means that decorators are
+		useful for adapting objects to new situations without re-writing the
+		original object's code¹.
+	</p>
+</subsection></div>
+
+<br/><br/>
+
+<div id="recipe"><a name="dilemma"></a>
+<subsection name="The Display Logic Dilemma">
+
+	<p>
+		Today, a simple task as displaying information has become more and more
+		complex. Rendering dynamic information on the Web usually involves
+		retrieving it from data-sources, which may vary from databases to XML
+		documents. Advanced technology enables you to establish a direct mapping
+		between the data source and easy-to-use containers like Java beans.
+		Displaying these might turn out to be a bit of drag. This raw data is
+		not what you wish to display and subclassing is out of the question.
+	</p>
+	<p>
+		An easy aproach to this dilemma is the Decorator Design Pattern. To make it
+		even easier, you can use the Decorator Tag Library, which applies a
+		decorator to an object for you.
+	</p>
+	<p>	
+		You can have all of your display logic contained by a set of decorators and
+		easily apply it to any object.
+	</p>
+</subsection></div>
+
+<br/><br/>
+
+<div id="recipe"><a name="dnw"></a>
+<subsection name="Decorators and Wrappers">
+
+	<p>
+		Usualy, the <i>decorator</i> and <i>wrapper</i> concepts are used for the
+		same thing. DecorUtils chose to differentiate them for the purpose of this
+		tool:
+		<ul>
+		<li>
+			A <strong>wrapper</strong> is considered to be a class that <i>wraps</i>
+			another to give it some extra funcionality as described in the Decorator
+			Pattern.
+		</li>
+		<li>
+			A <strong>decorator</strong> is a simple class whose sole purpose is to
+			<i>decorate</i>	a certain object and not it's characteristics. In a way
+			it can be seen as a parser or a transformation.
+		</li>
+		</ul>
+	</p>
+	
+	<p>
+		A decorator is a class that only requires a	<code>decorate()</code> method
+		that receives an <code>Object</code> and returns another one:
+		
+		<div class="source"><pre>
+	    public class MyDecorator {
+		
+		    public Object decorate(Object object) {
+		        // decorate
+		        return decoratedObject;
+		    }
+		    
+	    }</pre></div>
+	</p>
+	<p>
+		The <code>Decorator</code> interface that is provided is nothing more than a
+		facility that is meant to help you implement your decorator. You don't need
+		to implement it.
+	</p>
+	
+	<br/>
+	
+	<p>
+		A wrapper is a class that should wrap the behaviours/states that you wish to
+		override:
+		
+		<div class="source"><pre>
+	    public class MyWrapper extends Wrapper {
+		
+		    public String getName() {
+		        MyObject myObject = (MyObject) getObject();
+		        return myObject.getParent().getName()
+		        	+ " -> "
+		        	+ myObject.getName();
+		    }
+		    
+		    public String getDate() {
+		    	// format date
+		    	return dateString;
+		    }
+		    
+	    }</pre></div>
+	</p>
+</subsection></div>
+
+<br/><br/>
+
+<div id="recipe"><a name="references"></a>
+<subsection name="References">
+
+	<p>
+	¹ The Decorator Design Pattern, Antonio Garc�a and Stephen Wong -
+	<a href="http://www.exciton.cs.rice.edu/JavaResources/DesignPatterns/DecoratorPattern.htm">
+	http://www.exciton.cs.rice.edu/JavaResources/DesignPatterns/DecoratorPattern.htm</a>
+	</p>
+</subsection></div>
+
+<br/><br/>
+
+</section>
+</body>
+</document>
